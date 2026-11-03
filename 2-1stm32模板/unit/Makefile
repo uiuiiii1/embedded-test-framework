@@ -43,8 +43,9 @@ run: $(T1) $(T2)
 # 生成 HTML 覆盖率报告（需要 lcov；CI/Ubuntu 装了才有）
 cov: run
 	@if command -v lcov >/dev/null 2>&1; then \
-		lcov --capture --directory . --output-file coverage.info --quiet; \
-		lcov --remove coverage.info '*/unity/*' --output-file coverage.info --quiet; \
+		lcov --capture --directory . --directory ../BSP --output-file coverage.info --quiet; \
+		lcov --remove coverage.info '*/unity/*' '*/test_*' --output-file coverage.info --quiet; \
+		lcov --extract coverage.info '*modbus_frame.c' '*modbus_crc.c' --output-file coverage.info --quiet; \
 		genhtml coverage.info --output-directory coverage_report --quiet; \
 		echo "HTML 报告已生成：coverage_report/index.html"; \
 	else \
