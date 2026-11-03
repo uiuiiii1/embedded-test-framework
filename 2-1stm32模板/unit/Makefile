@@ -36,9 +36,7 @@ run: $(T1) $(T2)
 	@echo "===== 测试 2：帧解析 ====="
 	./$(T2)
 	@echo ""
-	@echo "===== 覆盖率（gcov 文本） ====="
-	gcov -b -c -o . $(BSP_DIR)/modbus_crc.c
-	gcov -b -c -o . $(BSP_DIR)/modbus_frame.c
+	@echo "===== 测试全部通过，覆盖率见 'make cov' ====="
 
 # 生成 HTML 覆盖率报告（需要 lcov；CI/Ubuntu 装了才有）
 cov: run
