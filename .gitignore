@@ -1,0 +1,42 @@
+# ============================================================
+# Keil 工程中间产物（不要提交）
+# ============================================================
+2-1stm32模板/Objects/
+2-1stm32模板/Listings/
+2-1stm32模板/DebugConfig/
+2-1stm32模板/*.uvguix.*
+2-1stm32模板/*.uvoptx
+2-1stm32模板/keilkill.bat
+2-1stm32模板/.vscode/
+
+# ============================================================
+# Python
+# ============================================================
+pythonProject/.venv/
+pythonProject/__pycache__/
+pythonProject/**/__pycache__/
+pythonProject/.pytest_cache/
+pythonProject/.idea/
+pythonProject/*.html
+pythonProject/*.log
+pythonProject/tools/__pycache__/
+
+# ============================================================
+# C 单元测试产物
+# ============================================================
+2-1stm32模板/unit/test_crc16
+2-1stm32模板/unit/test_frame
+2-1stm32模板/unit/test_crc16.exe
+2-1stm32模板/unit/test_frame.exe
+2-1stm32模板/unit/*.o
+2-1stm32模板/unit/*.gcda
+2-1stm32模板/unit/*.gcno
+2-1stm32模板/unit/*.gcov
+2-1stm32模板/unit/coverage.info
+2-1stm32模板/unit/coverage_report/
+
+# ============================================================
+# 通用
+# ============================================================
+.DS_Store
+Thumbs.db

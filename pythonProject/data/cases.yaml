@@ -1,0 +1,78 @@
+# 数据驱动用例：加减用例只改这个文件，不动 Python 代码
+#
+# 字段说明：
+#   name        用例名（会显示在 pytest 输出里）
+#   start       起始寄存器地址
+#   qty         读取数量
+#   expect      期望结果，二选一：
+#                 ok: [值1, 值2, ...]   期望正常返回这些值
+#                 exc: 0x02             期望异常码
+
+read_cases:
+  - name: 读寄存器0
+    start: 0
+    qty: 1
+    expect: { ok: null }        # null 表示"值不关心，只要求成功"
+
+  - name: 读寄存器0到3
+    start: 0
+    qty: 4
+    expect: { ok: null }
+
+  - name: 读最后10个寄存器
+    start: 90
+    qty: 10
+    expect: { ok: null }
+
+  - name: 读全部100个寄存器
+    start: 0
+    qty: 100
+    expect: { ok: null }
+
+  # ---- 以下期望异常 ----
+  - name: 数量为0
+    start: 0
+    qty: 0
+    expect: { exc: 0x03 }
+
+  - name: 数量超上限126
+    start: 0
+    qty: 126
+    expect: { exc: 0x03 }
+
+  - name: 起始地址越界
+    start: 100
+    qty: 1
+    expect: { exc: 0x02 }
+
+  - name: 起始地址0xFFFF
+    start: 0xFFFF
+    qty: 1
+    expect: { exc: 0x02 }
+
+  - name: 跨边界读取
+    start: 99
+    qty: 2
+    expect: { exc: 0x02 }
+
+
+write_cases:
+  - name: 写0x1234到寄存器50
+    reg: 50
+    value: 0x1234
+
+  - name: 写0x0000到寄存器51
+    reg: 51
+    value: 0x0000
+
+  - name: 写0xFFFF到寄存器52
+    reg: 52
+    value: 0xFFFF
+
+  - name: 写0x8000到寄存器53
+    reg: 53
+    value: 0x8000
+
+  - name: 写最后一个寄存器99
+    reg: 99
+    value: 0xABCD

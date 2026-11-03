@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # ============================================================
+  # Job 1：C 单元测试（Unity + gcov 覆盖率）
+  # 不依赖硬件，ubuntu-latest 自带 gcc/gcov
+  # ============================================================
+  c-unit-tests:
+    name: C 单元测试（Unity + gcov）
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "2-1stm32模板/unit"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 lcov（生成 HTML 覆盖率）
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
+      - name: 编译并运行单元测试 + 生成覆盖率
+        run: make cov
+
+      - name: 上传覆盖率报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: "2-1stm32模板/unit/coverage_report/"
+          if-no-files-found: warn
+
+  # ============================================================
+  # Job 2：Python 离线单元测试（协议层，不碰硬件）
+  # ============================================================
+  python-unit-tests:
+    name: Python 协议层单测
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "pythonProject"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 运行协议层单元测试
+        run: python -m pytest tests/test_protocol_unit.py -v
